@@ -1,7 +1,5 @@
-# provaprogetto
-Questa è una bozza del read me
+# Descrizione del progetto
 
-**Descrizione del progetto**
 Lo scopo del nostro progetto è individuare all’interno di un insieme di proteine delle interazioni fra coppie di esse. Laddove per “interazioni” intendiamo analogie fisiche oppure funzionali. Per farlo partiamo innanzitutto considerando questo insieme come un grafo, con le proteine al posto di nodi e le loro interazioni al posto degli archi.
 Affrontare questo argomento dal punto di vista computazionale significa raggruppare i nodi del grafo per mettere in evidenza queste relazioni.
 La rilevazione di queste possibili interazioni è cruciale poiché la rete PPI (protein-protein interaction) è una grande fonte di informazioni, fondamentali per vari studi biologici. 
@@ -11,18 +9,20 @@ La betweenness può essere pensata come il grado di “traffico” che passa per
 L’arco con la betweenness massima viene eliminato dal grafo, perché è molto probabile che quell’arco connetta due possibili cluster. 
 A questo punto ripetiamo questi passaggi finché abbiamo archi a disposizione. Questo renderà il grafo sconnesso e poi aumenterà sempre di più il numero di componenti connesse. Queste componenti saranno i nostri cluster. 
 
+---
+# Il nostro dataset
 
-**Il nostro dataset**
-I dataset reali disponibili sono nel sito dip.doe-mbi.ucla.edu/dip da cui è tratto in particolare quello da noi utilizzato: R.Norv - 666 proteine, 619 iterazioni.
+I dataset reali disponibili sono nel sito [dip.doe-mbi.ucla.edu/dip](https://www.dip.doe-mbi.ucla.edu/dip.it/) da cui è tratto in particolare quello da noi utilizzato: R.Norv - 666 proteine, 619 iterazioni.
 Per ottimizzare i risultati, nel grafo abbiamo deciso di eliminare le iterazioni del tipo (a)->(a) e soprattutto abbiamo limitato l’algoritmo a considerare le componenti connesse
 con un numero di elementi superiore a 10: nel nostro caso il numero di componenti cala drasticamente, da 177 a 15.
 
 
-Il nostro algoritmo è costituito da 12 classi Java. Segue una breve descrizione di ogni classe.   
 
-**Classi**:
 
-**JcomeJava**
+# Classi
+Il nostro algoritmo è costituito da 12 classi Java. Segue una breve descrizione di ogni classe:
+
+## JcomeJava
 Si tratta della classe main del nostro progetto.
 Metodi:
 - CreateInput:
@@ -87,13 +87,13 @@ Input: Lista di archi;
 Divisione degli archi in componenti connesse, basata sulla verifica effettuata dal metodo check (fissato un arco e1=(a,b), questo viene comparato ad un altro arco e2=(c,d): se a o b compare in e2 il metodo ritorna true; altrimenti falso).
 Output: Lista di liste di archi;
 
-Check
+## Check
 Input: Lista di archi.
 Controllo per evitare che ci siano archi che si ripetano.
 Output: Lista di archi.
 
 
-ForwardMR
+## ForwardMR
 (FlatMapFunction)
 Input: Proteina
 Per l’esplorazione del grafo.
@@ -107,30 +107,30 @@ distanza corrente +1, GREY, path corrente + arco (nodo neigh, nodo esaminato) );
 >Si genera una nuova proteina a quella di partenza, ma di colore BLACK;
 Output: Lista di proteine
 
-Pairing
+## Pairing
 (PairFunction)
 Input: Proteine
 La struttura monolitica < NodeId  Root  Neighbors | Distance | Color | Path > viene divisa in una coppia < (NodeId  Root), (Neighbors | Distance | Color | Path) >
 Output: Proteine (destrutturate)
 
-GetNeigh
+## GetNeigh
 (ReduceByKey)
 Input: Proteine (destrutturate: < (NodeId  Root), (Neighbors | Distance | Color | Path) >)
 Identificate dalla chiave (NodeId, Root), la classe recupera il quartetto di valori privilegando quelli generati dalla classe ForwardMR, aggiornati, piuttosto che quelli originali.
 Output: Proteine (destrutturate)
 
-Recontruct
+## Recontruct
 Input: Proteine (destrutturate: < (NodeId  Root), (Neighbors | Distance | Color | Path) >)
 Si torna alla struttura monolitica < NodeId  Root  Neighbors | Distance | Color | Path >.
 Output: Proteine 
 
-EdgesComparator
+## EdgesComparator
 (Comparator)
 Input: coppie (arco, betweeness)
 Individuazione della betweeness massima.
 Output: (arco, betweeness)
 
-ComputeDamnQ
+## ComputeDamnQ
 Input: coppie (lista delle componenti, lista di tutti gli archi)
 Siano E=|{tutti gli archi}|, C=|{componenti connessa}|, 
 costruisco la matrice f dove f [ i ][ j ] =
