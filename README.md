@@ -12,7 +12,7 @@ A questo punto ripetiamo questi passaggi finché abbiamo archi a disposizione. Q
 ---
 # Il nostro dataset
 
-I dataset reali disponibili sono nel sito [dip.doe-mbi.ucla.edu/dip](https://www.dip.doe-mbi.ucla.edu/dip.it/) da cui è tratto in particolare quello da noi utilizzato: R.Norv - 666 proteine, 619 iterazioni.
+I dataset reali disponibili sono nel sito [dip.doe-mbi.ucla.edu/dip](https://dip.doe-mbi.ucla.edu/dip/) da cui è tratto in particolare quello da noi utilizzato: R.Norv - 666 proteine, 619 iterazioni.
 Per ottimizzare i risultati, nel grafo abbiamo deciso di eliminare le iterazioni del tipo (a)->(a) e soprattutto abbiamo limitato l’algoritmo a considerare le componenti connesse
 con un numero di elementi superiore a 10: nel nostro caso il numero di componenti cala drasticamente, da 177 a 15.
 
