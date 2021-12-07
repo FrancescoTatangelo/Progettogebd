@@ -1,6 +1,7 @@
 # Descrizione del progetto
 
-Lo scopo del nostro progetto è individuare all’interno di un insieme di proteine delle interazioni fra coppie di esse. Laddove per “interazioni” intendiamo analogie fisiche oppure funzionali. Per farlo partiamo innanzitutto considerando questo insieme come un grafo, con le proteine al posto di nodi e le loro interazioni al posto degli archi.
+Questo progetto è stato realizzato da Julian Vincent De Guia Galang, Giammarco Imperatori e Francesco Tatangelo. 
+Lo suo scopo è individuare all’interno di un insieme di proteine delle interazioni fra coppie di esse. Laddove per “interazioni” intendiamo analogie fisiche oppure funzionali. Per farlo partiamo innanzitutto considerando questo insieme come un grafo, con le proteine al posto di nodi e le loro interazioni al posto degli archi.
 Affrontare questo argomento dal punto di vista computazionale significa raggruppare i nodi del grafo per mettere in evidenza queste relazioni.
 La rilevazione di queste possibili interazioni è cruciale poiché la rete PPI (protein-protein interaction) è una grande fonte di informazioni, fondamentali per vari studi biologici. 
 
