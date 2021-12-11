@@ -1,6 +1,14 @@
 # A MapReduce-Based Parallel Clustering Algorithm
 # for Large Protein-Protein Interaction Networks
 
+> Corso di\
+> Gestione ed Elaborazione di Big Data\
+> \
+> Progetto a cura di:\
+>   Galang Julian Vincent de Guia\
+>   Tatangelo Francesco\
+>   Imperatori Giammarco
+
 Lo scopo del nostro progetto è individuare le iterazioni all’interno di un insieme di proteine.\
 La rilevazione di queste possibili interazioni è cruciale poiché la rete PPI (protein-protein interaction) è una grande fonte di informazioni, fondamentali per vari studi biologici.
 
@@ -16,8 +24,8 @@ Per poter scegliere quante componenti considerare, entra in gioco ***Q***, una m
 Il problema è evidentemente un problema di flusso, ma si tratta anche di un problema di clusterizzazione: la ricerca dell'ottimo consiste nel trovare i gruppi di proteine che interagiscono più tra loro separandoli dal resto della rete PPI.
 
 # Dataset
-I dataset reali sono disponibili nel sito del [Database of Interacting Proteins](dip.doe-mbi.ucla.edu/dip) da cui è tratto in particolare quello da noi utilizzato:
-> ***R.Norv*** - 666 proteine, 619 iterazioni.
+I dataset reali sono disponibili nel sito del [Database of Interacting Proteins](https://dip.doe-mbi.ucla.edu/dip) da cui è tratto in particolare quello da noi utilizzato:
+> [***R.Norv***](https://github.com/galang1719565/FinalProjectGEBD/blob/master/Rnorv20170205.txt) - 666 proteine, 619 iterazioni.
 
 Per ottimizzare i risultati, nel grafo abbiamo deciso di eliminare le iterazioni del tipo (a)->(a) e soprattutto abbiamo limitato l’algoritmo a considerare le componenti connesse con un numero di elementi superiore a 10: nel nostro caso il numero di componenti cala drasticamente, da 177 a **15**.
 
@@ -26,10 +34,9 @@ Per ottimizzare i risultati, nel grafo abbiamo deciso di eliminare le iterazioni
 
 
 
-# Classi Java:
+# Classe main:
 
-## 1. *JcomeJava*
-Si tratta della classe main del nostro progetto.
+## *JcomeJava*
 
 ***Metodi***:
 - ***CreateInput***\
@@ -63,7 +70,8 @@ Output: quartetto (step, lista di archi della componente) , (arco, betweenness).
 ### **Algoritmo**:
 	
 > Data l’onerosità del codice, il numero massimo di iterazioni è impostato a 5.
-	
+
+Lettura del file txt codificato come lista di archi;
 Interfaccia Neo4J: creazione del grafo di partenza;\
 Lista BC: ad ogni iterazione dell’algoritmo salvo il grafo corrispondente;\
 Ciclo while 
@@ -73,19 +81,36 @@ Ciclo while
 - ***Check***<sup>[3]</sup>; 
 - Per ogni componente connessa:
 	- ***CreateInput***;
+	> Viene definita la struttura delle proteine<sup>[1]</sup>
 	- Inizializzazione dei nodi dove NodeId=Root -> Color = “GREY”;
 	- Ciclo while (finché tutta la componente non viene esplorata)
 		- ***ForwardMR***;
-	- Calcolo della betweeness attraverso ***BackwardMR***.
-- Calcolo della betweeness massima tra tutte le componenti attraverso ***ComputeBC***;
-- Eliminazione dell’arco con betweeness massima;
+	- Calcolo della betweenness attraverso ***BackwardMR***.
+- Calcolo della betweenness massima tra tutte le componenti attraverso ***ComputeBC***;
+- Eliminazione dell’arco con betweenness massima;
 - Aggiungo alla lista BC il risultato ottenuto.
 
 Definisco l’oggetto Q=(step, lista di componenti);\
 ***ComputeDamnQ***<sup>[9]</sup>;\
 ***QComparator***<sup>[10]</sup>.
 
+	
+	
+	
 
+## Altre classi:
+
+### *JcomeToy*
+> Applicazione dell'algoritmo ad un dataset di prova.
+
+![Dataset di prova](Toy.jpg)
+
+> Si osservi come sia presente un arco, evidenziato in figura, in cui il flusso è evidentemente concentrato e di conseguenza presenterà una ***betweenness*** elevata.
+> Eliminato questo arco, le due componenti connesse ottenute appaiono fortemente connesse. Motivo per il quale ci si aspetta che ulteriori eliminazioni siano superflue: è difatti il grafo ottimo secondo ***Q***.
+	
+### 1. *Protein*
+Si tratta del costruttore.
+> < NodeId  Root  Neighbors | Distance | Color | Path >
 
 ### 2. *DividiComponentiCheck*
 Input: Lista di archi;\
@@ -118,7 +143,8 @@ Output: Lista di proteine.
 
 Input: Proteine;\
 Output: Proteine (destrutturate).
-> La struttura monolitica < NodeId  Root  Neighbors | Distance | Color | Path > viene divisa in una coppia < (NodeId  Root), (Neighbors | Distance | Color | Path) >
+> La struttura monolitica < NodeId  Root  Neighbors | Distance | Color | Path >\
+> viene divisa in una coppia < (NodeId  Root), (Neighbors | Distance | Color | Path) >
 
 ### 6. *GetNeigh*
 
@@ -137,9 +163,9 @@ Output: Proteine .
 
 > (Comparator)
 
-Input: coppie (arco, betweeness);\
-Output: (arco, betweeness).
-> Individuazione della betweeness massima.
+Input: coppie (arco, betweenness);\
+Output: (arco, betweenness).
+> Individuazione della betweenness massima.
 
 ### 9. *ComputeDamnQ*
 Input: coppie (lista delle componenti, lista di tutti gli archi);\
