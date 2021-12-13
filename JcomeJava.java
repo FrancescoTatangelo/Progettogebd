@@ -264,7 +264,7 @@ public class JcomeJava {
 	 				+ "\t\t\t\t  |____________________________|\n"
 	 				+ "\n"
 	 				+ "");
-	     Integer stepmax = 5;
+	     Integer stepmax = 3; //ORA 3, PRIMA 5
   	
       	/*
 		 * Lista su cui salverò < <Step,Lista<archi della componente>, <arco,betweeness> >
@@ -305,7 +305,7 @@ public class JcomeJava {
 			EdgesComp=EdgesComp.distinct().map(new Check()).distinct();
 			
 			//Elimino le componenti composte da pochi archi
-			if(sgrevato)EdgesComp = EdgesComp.filter(comp->comp.size()>=10);
+			if(sgrevato)EdgesComp = EdgesComp.filter(comp->comp.size()>=25); // 25 ORA, PRIMA 10
 			
 			Integer NumeroComponent = 0;
 			NumeroComponent = EdgesComp.collect().size();
@@ -552,6 +552,9 @@ public class JcomeJava {
 				+ "\t|                                                                          |\n"
 				+ "\t|                    t  h  e                    e  n  d                    |\n"
 				+ "\t|__________________________________________________________________________|\n\n\n\n\n\n");
+		
+		 System.exit(1); //aggiunto 
+
 			
 	}
 	
