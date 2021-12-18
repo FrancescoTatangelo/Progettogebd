@@ -195,3 +195,4 @@ Output: Q.
 Input: coppie (lista delle componenti, Q);\
 Output: (lista delle componenti, Q).
 > Individuazione della Q massima.
+
